@@ -5,16 +5,29 @@ using { RiskManagement as my } from '../db/schema';
 @path : '/service/RiskManagementSvcs'
 service RiskManagementService
 {
+    annotate A_BusinessPartner with @restrict :
+    [
+        { grant : [ 'READ' ], to : [ 'authenticated-user' ] },
+        { grant : [ '*' ], to : [ 'any' ] },
+        { grant : [ '*' ], to : [ 'system-user' ] }
+    ];
+
     annotate Mitigations with @restrict :
     [
-        { grant : [ 'READ' ], to : [ 'RiskViewer' ] },
-        { grant : [ '*' ], to : [ 'RiskManager' ] }
+        { grant : [ 'READ' ], to : [ 'authenticated-user' ] },
+        { grant : [ '*' ], to : [ 'RiskViewer' ] },
+        { grant : [ '*' ], to : [ 'RiskManager' ] },
+        { grant : [ '*' ], to : [ 'any' ] },
+        { grant : [ '*' ], to : [ 'system-user' ] }
     ];
 
     annotate Risks with @restrict :
     [
-        { grant : [ 'READ' ], to : [ 'RiskViewer' ] },
-        { grant : [ '*' ], to : [ 'RiskManager' ] }
+        { grant : [ 'READ' ], to : [ 'authenticated-user' ] },
+        { grant : [ '*' ], to : [ 'RiskViewer' ] },
+        { grant : [ '*' ], to : [ 'RiskManager' ] },
+        { grant : [ '*' ], to : [ 'any' ] },
+        { grant : [ '*' ], to : [ 'system-user' ] }
     ];
 
     @odata.draft.enabled
@@ -40,5 +53,7 @@ annotate RiskManagementService with @requires :
 [
     'authenticated-user',
     'RiskViewer',
-    'RiskManager'
+    'RiskManager',
+    'any',
+    'system-user'
 ];
